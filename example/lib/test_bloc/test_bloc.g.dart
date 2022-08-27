@@ -13,11 +13,3 @@ class AddToCartInProgressState extends TestState {}
 class AddToCartCompletedState extends TestState {}
 
 class AddToCartFailedState extends TestState {}
-
-class DeleteFromCartEvent extends TestEvent {}
-
-class DeleteFromCartInProgressState extends TestState {}
-
-class DeleteFromCartCompletedState extends TestState {}
-
-class DeleteFromCartFailedState extends TestState {}

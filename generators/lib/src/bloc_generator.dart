@@ -8,17 +8,27 @@ import 'class_name_visitor.dart';
 class BlocGenerator extends GeneratorForAnnotation<BlocStateAnnotation> {
   @override
   String generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
-    var blocName = element.name.replaceFirst('Bloc', '');
+    final blocName = element.name.replaceFirst('Bloc', '');
 
-    var names = annotation.read('names').listValue.map((e) => e.toStringValue()).toList();
-    
+    final options = annotation
+        .read('options')
+        .listValue
+        .map((e) => Option(
+              name: e.getField('name').toStringValue(),
+              inputType: e.getField('inputType').toTypeValue().runtimeType
+           
+            ))
+        .toList();
+    final baseEventType = annotation.read('baseEventType').typeValue;
+    final baseStateType = annotation.read('baseStateType').typeValue;
+
     final buffer = StringBuffer();
 
-    for (final name in names) {
-      buffer.writeln('class ${name}Event extends ${blocName}Event{}');
-      buffer.writeln('class ${name}InProgressState extends ${blocName}State{}');
-      buffer.writeln('class ${name}CompletedState extends ${blocName}State{}');
-      buffer.writeln('class ${name}FailedState extends ${blocName}State{}');
+    for (final option in options) {
+      buffer.writeln('class ${option.name}Event extends ${blocName}Event{}');
+      buffer.writeln('class ${option.name}InProgressState extends ${blocName}State{}');
+      buffer.writeln('class ${option.name}CompletedState extends ${blocName}State{}');
+      buffer.writeln('class ${option.name}FailedState extends ${blocName}State{}');
     }
 
     return buffer.toString();
