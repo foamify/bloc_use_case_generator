@@ -1,14 +1,14 @@
 targets:
   $default:
     builders:
-      generators|annotations:
+      bloc_generator:
         enabled: true
 
 builders:
-  generators:
-    target: ":generators"
-    import: "package:generators/builder.dart"
-    builder_factories: ["generateSubclass", "generateExtension",'generateBloc']
+  bloc_generator:
+    target: ":bloc_generator"
+    import: "package:bloc_generator/builder.dart"
+    builder_factories: ['generateBloc']
     build_extensions: { ".dart": [".g.dart"] }
     auto_apply: dependents
     build_to: cache

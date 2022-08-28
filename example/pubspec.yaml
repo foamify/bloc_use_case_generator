@@ -24,8 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
-  annotations:
-    path: ../annotations/
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -35,8 +33,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.2.0
-  generators:
-    path: ../generators/
+  bloc_generator:
+    path: ../
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
