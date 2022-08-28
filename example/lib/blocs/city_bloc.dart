@@ -1,34 +1,29 @@
 import 'dart:async';
+
 import 'package:annotations/annotations.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc/bloc.dart';
+
 
 import '../model/city_model.dart';
 import '../model/global_failure_model.dart';
-import '../model/restart_failure_model.dart';
 import '../service/remote_service.dart';
 
-part 'test_bloc.g.dart';
+part 'city_bloc.g.dart';
 
-abstract class TestEvent {}
+abstract class CityEvent {}
 
-abstract class TestState {}
+abstract class CityState {}
 
 @BlocAnnotation(
-  baseEventType: TestEvent,
-  baseStateType: TestState,
+  baseEventType: CityEvent,
+  baseStateType: CityState,
   failureModel: GlobalFailureModel,
   blocUseCases: [
     BlocUseCase(
-      name: 'ChangeTheme',
-      output: {'result': int},
-      input: {'themeId': int},
-      extraStates: ['NoThemeFound'],
-    ),
-    BlocUseCase(
-      name: 'Restart',
-      input: {'time': DateTime},
-      output: {'isSuccess': bool},
-      failureModel: RestartFailureModel,
+      name: 'DeleteCity',
+      input: {'cityId': int},
+      output: {'city': City},
+      extraStates: ['NoCityFound'],
     ),
     BlocUseCase(
       name: 'GetCities',
@@ -36,16 +31,17 @@ abstract class TestState {}
     ),
   ],
 )
-class TestBloc extends Bloc<TestEvent, TestState> {
+class CityBloc extends Bloc<CityEvent, CityState> {
   final RemoteService _remoteService = RemoteService();
-
-  TestBloc() : super(InitialTestState()) {
-    on<GetCitiesEvent>(_onGetCities);
+  CityBloc() : super(InitialCityState()) {
+    on<CityEvent>((event, emit) {
+      on<GetCitiesEvent>(_onGetCities);
+    });
   }
 
   FutureOr<void> _onGetCities(
     GetCitiesEvent event,
-    Emitter<TestState> emit,
+    Emitter<CityState> emit,
   ) async {
     emit(GetCitiesInProgressState());
 
