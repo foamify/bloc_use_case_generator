@@ -2,9 +2,9 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/constant/value.dart' show DartObject;
 
 import 'package:build/src/builder/build_step.dart';
-import 'package:bloc_generator/src/error/invalid_argument.dart';
-import 'package:bloc_generator/src/error/required_field_error.dart';
-import 'package:bloc_generator/src/model/use_case.dart';
+import 'package:bloc_use_case_generator/src/error/invalid_argument.dart';
+import 'package:bloc_use_case_generator/src/error/required_field_error.dart';
+import 'package:bloc_use_case_generator/src/model/use_case.dart';
 import 'package:source_gen/source_gen.dart';
 
 

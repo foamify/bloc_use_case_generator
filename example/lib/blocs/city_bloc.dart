@@ -8,7 +8,7 @@ import '../model/city_model.dart';
 import '../model/global_failure_model.dart';
 import '../service/remote_service.dart';
 
-import 'package:bloc_generator/bloc_generator.dart';
+import 'package:bloc_use_case_generator/bloc_generator.dart';
 
 
 part 'city_bloc.g.dart';

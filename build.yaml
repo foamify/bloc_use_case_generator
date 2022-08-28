@@ -1,13 +1,13 @@
 targets:
   $default:
     builders:
-      bloc_generator:
+      bloc_use_case_generator:
         enabled: true
 
 builders:
-  bloc_generator:
-    target: ":bloc_generator"
-    import: "package:bloc_generator/builder.dart"
+  bloc_use_case_generator:
+    target: ":bloc_use_case_generator"
+    import: "package:bloc_use_case_generator/builder.dart"
     builder_factories: ['generateBloc']
     build_extensions: { ".dart": [".g.dart"] }
     auto_apply: dependents
