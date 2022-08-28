@@ -21,7 +21,7 @@ class ChangeThemeCompletedState extends TestState {
 }
 
 class ChangeThemeFailedState extends TestState {
-  final FailureModel failure;
+  final GlobalFailureModel failure;
   ChangeThemeFailedState({required this.failure});
 }
 
@@ -38,6 +38,6 @@ class RestartCompletedState extends TestState {
 }
 
 class RestartFailedState extends TestState {
-  final FailureModel failure;
+  final RestartFailureModel failure;
   RestartFailedState({required this.failure});
 }

@@ -4,11 +4,13 @@ class UseCase {
   final Map<String, String> inputs;
   final Map<String, String> outputs;
   final List<String> extraStates;
+  final String? failureModel;
 
   UseCase({
     required this.name,
     required this.inputs,
     required this.outputs,
     required this.extraStates,
+    required this.failureModel,
   });
 }

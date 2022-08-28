@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/constant/value.dart' show DartObject;
 import 'package:annotations/annotations.dart';
 import 'package:build/src/builder/build_step.dart';
 import 'package:generators/src/error/invalid_argument.dart';
@@ -25,11 +26,13 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
     }
 
     var useCases = annotation.read('blocUseCases').listValue;
-    final List<UseCase> usecaseModels = [];
+    final List<UseCase> useCaseModels = [];
     for (final useCase in useCases) {
       final outputDartMap = useCase.getField('output')?.toMapValue();
       final inputDartMap = useCase.getField('input')?.toMapValue();
       final name = useCase.getField('name')?.toStringValue();
+
+      final failureModel = dartObjectToTypeString(useCase.getField('failureModel'));
 
       if (name == null) {
         throw RequiredFieldError(fieldName: 'name');
@@ -41,7 +44,8 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
       if (outputDartMap != null) {
         for (var entry in outputDartMap.entries) {
           var key = entry.key?.toStringValue();
-          var type = entry.value?.toTypeValue().toString().replaceAll('*', '');
+          var type = dartObjectToTypeString(entry.value);
+
           if (key == null || type == null) {
             throw InvalidArgumentException(
               fieldName: 'output',
@@ -56,7 +60,7 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
       if (inputDartMap != null) {
         for (var entry in inputDartMap.entries) {
           var key = entry.key?.toStringValue();
-          var type = entry.value?.toTypeValue().toString().replaceAll('*', '');
+          var type = dartObjectToTypeString(entry.value);
           if (key == null || type == null) {
             throw InvalidArgumentException(
               fieldName: 'input',
@@ -77,17 +81,18 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
         }
       }
 
-      usecaseModels.add(UseCase(
+      useCaseModels.add(UseCase(
         name: name,
         inputs: inputs,
         outputs: outputs,
         extraStates: states,
+        failureModel: failureModel,
       ));
     }
 
     final buffer = StringBuffer();
 
-    for (final model in usecaseModels) {
+    for (final model in useCaseModels) {
       buffer.writeln('class ${model.name}Event extends $baseEventType{');
       if (model.inputs.isNotEmpty) {
         _writeIO(buffer, model.inputs, '${model.name}Event');
@@ -109,8 +114,15 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
       buffer.writeln('}');
       buffer.writeln('class ${model.name}FailedState extends $baseStateType{');
 
-      if (globalFailureModel != null) {
-        buffer.writeln("final $globalFailureModel failure;");
+      String? failureModel;
+      if (model.failureModel != null && model.failureModel != "null") {
+        failureModel = model.failureModel;
+      } else {
+        failureModel = globalFailureModel;
+      }
+
+      if (failureModel != "null" && failureModel != null) {
+        buffer.writeln("final $failureModel failure;");
         buffer.writeln("${model.name}FailedState({required this.failure});");
       }
 
@@ -118,6 +130,10 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
     }
 
     return buffer.toString();
+  }
+
+  String? dartObjectToTypeString(DartObject? dartObj) {
+    return dartObj?.toTypeValue().toString().replaceAll("*", "");
   }
 
   void _writeIO(StringBuffer buffer, Map<String, String> map, String constructorName) {

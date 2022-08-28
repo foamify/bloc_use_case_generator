@@ -4,12 +4,14 @@ class BlocUseCase {
   final Map<String, Type>? output;
   final Map<String, Type>? input;
   final List<String>? extraStates;
+  final Type? failureModel;
 
   const BlocUseCase({
     required this.name,
     this.output,
     this.input,
     this.extraStates,
+    this.failureModel,
   });
 }
 

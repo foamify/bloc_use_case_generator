@@ -1,14 +1,15 @@
 import 'package:annotations/annotations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../model/failure_model.dart';
+import '../model/global_failure_model.dart';
+import '../model/restart_failure_model.dart';
 
 part 'test_bloc.g.dart';
 
 @BlocAnnotation(
   baseEventType: TestEvent,
   baseStateType: TestState,
-  failureModel: FailureModel,
+  failureModel: GlobalFailureModel,
   blocUseCases: [
     BlocUseCase(
       name: 'ChangeTheme',
@@ -20,6 +21,7 @@ part 'test_bloc.g.dart';
       name: 'Restart',
       input: {'time': DateTime},
       output: {'isSuccess': bool},
+      failureModel: RestartFailureModel,
     ),
   ],
 )
