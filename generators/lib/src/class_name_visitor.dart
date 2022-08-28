@@ -2,7 +2,7 @@ import 'package:analyzer/dart/element/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
 
 class ClassNameVisitor extends SimpleElementVisitor<dynamic> {
-  String blocName;
+  String? blocName;
 
   @override
   dynamic visitClassElement(ClassElement element) {

@@ -17,7 +17,7 @@
       "name": "annotations",
       "rootUri": "../../annotations",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.17"
     },
     {
       "name": "args",
@@ -407,10 +407,10 @@
       "name": "generators",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.7"
+      "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-08-27T18:49:08.910089Z",
+  "generated": "2022-08-28T12:17:32.549872Z",
   "generator": "pub",
   "generatorVersion": "2.17.6"
 }

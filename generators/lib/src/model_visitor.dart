@@ -39,7 +39,7 @@ import 'package:analyzer/dart/element/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
 
 class ModelVisitor extends SimpleElementVisitor<dynamic> {
-  String className;
+  String? className;
 
   Map<String, dynamic> fields = <String, dynamic>{};
 

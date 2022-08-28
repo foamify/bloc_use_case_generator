@@ -1,29 +1,30 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-class Option {
+class BlocUseCase {
   final String name;
-  final Type outputType;
-  final Type inputType;
+  final Map<String, Type>? output;
+  final Map<String, Type>? input;
+  final List<String>? extraStates;
 
-  const Option({
+  const BlocUseCase({
     required this.name,
-    required this.outputType,
-    required this.inputType,
+    this.output,
+    this.input,
+    this.extraStates,
   });
 }
 
-class BlocStateAnnotation {
+class BlocAnnotation {
   final Type baseEventType;
   final Type baseStateType;
-  final List<Option> options;
+  final Type? failureModel;
+  final List<BlocUseCase> blocUseCases;
 
-
-  const BlocStateAnnotation({
+  const BlocAnnotation({
     required this.baseEventType,
     required this.baseStateType,
-    required this.options,
+    required this.blocUseCases,
+    this.failureModel,
   });
-
- 
 }
 
 /// T is input model for event

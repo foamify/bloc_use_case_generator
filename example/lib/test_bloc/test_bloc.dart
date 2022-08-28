@@ -1,29 +1,29 @@
 import 'package:annotations/annotations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../model/test_model.dart';
-
 part 'test_bloc.g.dart';
 
-@BlocStateAnnotation(
+@BlocAnnotation(
   baseEventType: TestEvent,
   baseStateType: TestState,
-  options: [
-    Option(
-      name: 'AddToCart',
-      inputType: int,
-      outputType: List<TestModel>,
+  blocUseCases: [
+    BlocUseCase(
+      name: 'ChangeTheme',
+      output: {'result': int},
+      input: {'id': int},
+      extraStates: ['NoTheme'],
+    ),
+    BlocUseCase(
+      name: 'Restart',
+      input: {'time': int},
+      output: {'isSuccess': bool},
     ),
   ],
 )
 class TestBloc extends Bloc<TestEvent, TestState> {
-  TestBloc(TestState initialState) : super(initialState) {
-    on<TestEvent>((event, emit) {});
-  }
+  TestBloc(TestState initialState) : super(initialState) {}
 }
 
-@BlocEvent(inputType: int)
 abstract class TestEvent {}
 
-@BlocState(type: List<TestModel>)
 abstract class TestState {}
