@@ -10,12 +10,12 @@ part 'test_bloc.g.dart';
     BlocUseCase(
       name: 'ChangeTheme',
       output: {'result': int},
-      input: {'id': int},
-      extraStates: ['NoTheme'],
+      input: {'themeId': int},
+      extraStates: ['NoThemeFound'],
     ),
     BlocUseCase(
       name: 'Restart',
-      input: {'time': int},
+      input: {'time': DateTime},
       output: {'isSuccess': bool},
     ),
   ],

@@ -6,14 +6,12 @@ import 'package:generators/src/error/required_field_error.dart';
 import 'package:generators/src/model/use_case.dart';
 import 'package:source_gen/source_gen.dart';
 
-import 'class_name_visitor.dart';
-
 class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
   @override
   String generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
     final blocName = element.name?.replaceFirst('Bloc', '');
-    final baseEventType = annotation.read('baseEventType').typeValue;
-    final baseStateType = annotation.read('baseStateType').typeValue;
+    final baseEventType = annotation.read('baseEventType').typeValue.toString().replaceAll("*", "");
+    final baseStateType = annotation.read('baseStateType').typeValue.toString().replaceAll("*", "");
 
     if (blocName == null) {
       throw RequiredFieldError(fieldName: 'name');
@@ -83,32 +81,32 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
     final buffer = StringBuffer();
 
     for (final model in usecaseModels) {
-      buffer.writeln('class ${model.name}Event extends ${blocName}Event{');
+      buffer.writeln('class ${model.name}Event extends $baseEventType{');
       if (model.inputs.isNotEmpty) {
-        writeIO(buffer, model.inputs, '${model.name}Event');
+        _writeIO(buffer, model.inputs, '${model.name}Event');
       }
       buffer.writeln('}');
 
-      buffer.writeln('class ${model.name}InProgressState extends ${blocName}State{}');
+      buffer.writeln('class ${model.name}InProgressState extends $baseStateType{}');
 
       if (model.extraStates.isNotEmpty) {
         for (var state in model.extraStates) {
-          buffer.writeln("class ${state}State extends ${blocName}State{}");
+          buffer.writeln("class ${state}State extends $baseStateType{}");
         }
       }
 
-      buffer.writeln('class ${model.name}CompletedState extends ${blocName}State{');
+      buffer.writeln('class ${model.name}CompletedState extends $baseStateType{');
       if (model.outputs.isNotEmpty) {
-        writeIO(buffer, model.outputs, '${model.name}CompletedState');
+        _writeIO(buffer, model.outputs, '${model.name}CompletedState');
       }
       buffer.writeln('}');
-      buffer.writeln('class ${model.name}FailedState extends ${blocName}State{}');
+      buffer.writeln('class ${model.name}FailedState extends $baseStateType{}');
     }
 
     return buffer.toString();
   }
 
-  void writeIO(StringBuffer buffer, Map<String, String> map, String constructorName) {
+  void _writeIO(StringBuffer buffer, Map<String, String> map, String constructorName) {
     for (var input in map.entries) {
       buffer.writeln('final ${input.value} ${input.key};');
     }

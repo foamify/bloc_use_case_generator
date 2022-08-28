@@ -7,13 +7,13 @@ part of 'test_bloc.dart';
 // **************************************************************************
 
 class ChangeThemeEvent extends TestEvent {
-  final int id;
-  ChangeThemeEvent({required this.id});
+  final int themeId;
+  ChangeThemeEvent({required this.themeId});
 }
 
 class ChangeThemeInProgressState extends TestState {}
 
-class NoThemeState extends TestState {}
+class NoThemeFoundState extends TestState {}
 
 class ChangeThemeCompletedState extends TestState {
   final int result;
@@ -23,7 +23,7 @@ class ChangeThemeCompletedState extends TestState {
 class ChangeThemeFailedState extends TestState {}
 
 class RestartEvent extends TestEvent {
-  final int time;
+  final DateTime time;
   RestartEvent({required this.time});
 }
 
