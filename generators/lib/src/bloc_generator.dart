@@ -92,7 +92,9 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
 
     final buffer = StringBuffer();
 
+      buffer.writeln("class Initial${blocName}State extends $baseStateType{}");
     for (final model in useCaseModels) {
+
       buffer.writeln('class ${model.name}Event extends $baseEventType{');
       if (model.inputs.isNotEmpty) {
         _writeIO(buffer, model.inputs, '${model.name}Event');

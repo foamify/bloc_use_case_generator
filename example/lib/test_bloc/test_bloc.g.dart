@@ -6,6 +6,8 @@ part of 'test_bloc.dart';
 // BlocGenerator
 // **************************************************************************
 
+class InitialTestState extends TestState {}
+
 class ChangeThemeEvent extends TestEvent {
   final int themeId;
   ChangeThemeEvent({required this.themeId});
