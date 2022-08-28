@@ -1,6 +1,7 @@
 import 'package:annotations/annotations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../model/city_model.dart';
 import '../model/global_failure_model.dart';
 import '../model/restart_failure_model.dart';
 
@@ -22,6 +23,10 @@ part 'test_bloc.g.dart';
       input: {'time': DateTime},
       output: {'isSuccess': bool},
       failureModel: RestartFailureModel,
+    ),
+    BlocUseCase(
+      name: 'GetCities',
+      output: {'cities': List<City>},
     ),
   ],
 )

@@ -41,3 +41,17 @@ class RestartFailedState extends TestState {
   final RestartFailureModel failure;
   RestartFailedState({required this.failure});
 }
+
+class GetCitiesEvent extends TestEvent {}
+
+class GetCitiesInProgressState extends TestState {}
+
+class GetCitiesCompletedState extends TestState {
+  final List<City> cities;
+  GetCitiesCompletedState({required this.cities});
+}
+
+class GetCitiesFailedState extends TestState {
+  final GlobalFailureModel failure;
+  GetCitiesFailedState({required this.failure});
+}
