@@ -7,6 +7,7 @@ import 'package:bloc_generator/src/error/required_field_error.dart';
 import 'package:bloc_generator/src/model/use_case.dart';
 import 'package:source_gen/source_gen.dart';
 
+
 import '../../bloc_generator.dart';
 
 
