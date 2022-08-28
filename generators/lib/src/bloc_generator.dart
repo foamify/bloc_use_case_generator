@@ -12,6 +12,13 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
     final blocName = element.name?.replaceFirst('Bloc', '');
     final baseEventType = annotation.read('baseEventType').typeValue.toString().replaceAll("*", "");
     final baseStateType = annotation.read('baseStateType').typeValue.toString().replaceAll("*", "");
+    String? globalFailureModel;
+
+    try {
+      globalFailureModel = annotation.read('failureModel').typeValue.toString().replaceAll("*", "");
+    } on FormatException {
+      globalFailureModel = null;
+    }
 
     if (blocName == null) {
       throw RequiredFieldError(fieldName: 'name');
@@ -100,7 +107,14 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
         _writeIO(buffer, model.outputs, '${model.name}CompletedState');
       }
       buffer.writeln('}');
-      buffer.writeln('class ${model.name}FailedState extends $baseStateType{}');
+      buffer.writeln('class ${model.name}FailedState extends $baseStateType{');
+
+      if (globalFailureModel != null) {
+        buffer.writeln("final $globalFailureModel failure;");
+        buffer.writeln("${model.name}FailedState({required this.failure});");
+      }
+
+      buffer.writeln("}");
     }
 
     return buffer.toString();

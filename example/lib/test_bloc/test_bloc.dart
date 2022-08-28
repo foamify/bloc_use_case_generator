@@ -1,11 +1,14 @@
 import 'package:annotations/annotations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../model/failure_model.dart';
+
 part 'test_bloc.g.dart';
 
 @BlocAnnotation(
   baseEventType: TestEvent,
   baseStateType: TestState,
+  failureModel: FailureModel,
   blocUseCases: [
     BlocUseCase(
       name: 'ChangeTheme',

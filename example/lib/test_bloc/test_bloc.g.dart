@@ -20,7 +20,10 @@ class ChangeThemeCompletedState extends TestState {
   ChangeThemeCompletedState({required this.result});
 }
 
-class ChangeThemeFailedState extends TestState {}
+class ChangeThemeFailedState extends TestState {
+  final FailureModel failure;
+  ChangeThemeFailedState({required this.failure});
+}
 
 class RestartEvent extends TestEvent {
   final DateTime time;
@@ -34,4 +37,7 @@ class RestartCompletedState extends TestState {
   RestartCompletedState({required this.isSuccess});
 }
 
-class RestartFailedState extends TestState {}
+class RestartFailedState extends TestState {
+  final FailureModel failure;
+  RestartFailedState({required this.failure});
+}

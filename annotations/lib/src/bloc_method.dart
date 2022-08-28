@@ -16,6 +16,8 @@ class BlocUseCase {
 class BlocAnnotation {
   final Type baseEventType;
   final Type baseStateType;
+
+  /// if not null it will be global for bloc
   final Type? failureModel;
   final List<BlocUseCase> blocUseCases;
 
