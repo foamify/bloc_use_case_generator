@@ -13,6 +13,8 @@ class ChangeThemeEvent extends TestEvent {
 
 class ChangeThemeInProgressState extends TestState {}
 
+class NoThemeState extends TestState {}
+
 class ChangeThemeCompletedState extends TestState {
   final int result;
   ChangeThemeCompletedState({required this.result});

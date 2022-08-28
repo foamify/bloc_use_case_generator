@@ -3,12 +3,12 @@ class UseCase {
   final String name;
   final Map<String, String> inputs;
   final Map<String, String> outputs;
-  final List<String>? extraStates;
-  
+  final List<String> extraStates;
+
   UseCase({
     required this.name,
     required this.inputs,
     required this.outputs,
-    this.extraStates,
+    required this.extraStates,
   });
 }

@@ -90,6 +90,13 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
       buffer.writeln('}');
 
       buffer.writeln('class ${model.name}InProgressState extends ${blocName}State{}');
+
+      if (model.extraStates.isNotEmpty) {
+        for (var state in model.extraStates) {
+          buffer.writeln("class ${state}State extends ${blocName}State{}");
+        }
+      }
+
       buffer.writeln('class ${model.name}CompletedState extends ${blocName}State{');
       if (model.outputs.isNotEmpty) {
         writeIO(buffer, model.outputs, '${model.name}CompletedState');
