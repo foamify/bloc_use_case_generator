@@ -15,7 +15,14 @@ class DeleteCityEvent extends CityEvent {
 
 class DeleteCityInProgressState extends CityState {}
 
-class NoCityFoundState extends CityState {}
+class DeleteCityForbiddenState extends CityState {
+  DeleteCityForbiddenState();
+}
+
+class DeleteCityWithIdState extends CityState {
+  final int cityId;
+  DeleteCityWithIdState({required this.cityId});
+}
 
 class DeleteCityCompletedState extends CityState {
   final City city;

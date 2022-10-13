@@ -6,14 +6,8 @@ import 'package:bloc_use_case_generator/src/error/invalid_argument.dart';
 import 'package:bloc_use_case_generator/src/error/required_field_error.dart';
 import 'package:bloc_use_case_generator/src/model/use_case.dart';
 import 'package:source_gen/source_gen.dart';
-
-
+import 'package:bloc_use_case_generator/src/model/use_case_state.dart' as helper;
 import '../../bloc_generator.dart';
-
-
-
-
-
 
 class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
   @override
@@ -79,13 +73,33 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
         }
       }
 
-      List<String> states = [];
+      List<helper.UseCaseState> extraStates = [];
       if (extraStatesDartList != null) {
-        for (var state in extraStatesDartList) {
-          var s = state.toStringValue();
-          if (s != null) {
-            states.add(s);
+        for (var extraState in extraStatesDartList) {
+          String? name = extraState.getField('name')?.toStringValue();
+          Map<DartObject?, DartObject?>? arguments = extraState.getField('arguments')?.toMapValue();
+
+          if (name == null) {
+            continue;
           }
+
+          Map<String, String> argumentsAsStringMap = {};
+          if (arguments != null) {
+            for (var entry in arguments.entries) {
+              var key = entry.key?.toStringValue();
+              var type = dartObjectToTypeString(entry.value);
+
+              if (key != null && type != null) {
+                argumentsAsStringMap[key] = type;
+              }
+            }
+          }
+
+          final extraStateModel = helper.UseCaseState(
+            name: name,
+            arguments: argumentsAsStringMap,
+          );
+          extraStates.add(extraStateModel);
         }
       }
 
@@ -93,16 +107,15 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
         name: name,
         inputs: inputs,
         outputs: outputs,
-        extraStates: states,
+        extraStates: extraStates,
         failureModel: failureModel,
       ));
     }
 
     final buffer = StringBuffer();
 
-      buffer.writeln("class Initial${blocName}State extends $baseStateType{}");
+    buffer.writeln("class Initial${blocName}State extends $baseStateType{}");
     for (final model in useCaseModels) {
-
       buffer.writeln('class ${model.name}Event extends $baseEventType{');
       if (model.inputs.isNotEmpty) {
         _writeIO(buffer, model.inputs, '${model.name}Event');
@@ -113,7 +126,12 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
 
       if (model.extraStates.isNotEmpty) {
         for (var state in model.extraStates) {
-          buffer.writeln("class ${state}State extends $baseStateType{}");
+          buffer.writeln("class ${state.name}State extends $baseStateType{");
+          if (state.arguments != null) {
+            _writeIO(buffer, state.arguments!, '${state.name}State');
+          }
+
+          buffer.writeln("}");
         }
       }
 

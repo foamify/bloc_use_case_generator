@@ -2,7 +2,7 @@ class BlocUseCase {
   final String name;
   final Map<String, Type>? output;
   final Map<String, Type>? input;
-  final List<String>? extraStates;
+  final List<UseCaseState>? extraStates;
   final Type? failureModel;
 
   const BlocUseCase({
@@ -40,4 +40,19 @@ class BlocEvent {
 class BlocState {
   final Type type;
   const BlocState({required this.type});
+}
+
+class UseCaseState {
+  /// [name] should be without `State` word
+  /// code generation adds `State` to generated class
+  final String name;
+
+  /// defines class fields
+  /// map as field name - field type
+  final Map<String, Type>? arguments;
+
+  const UseCaseState({
+    required this.name,
+    this.arguments,
+  });
 }

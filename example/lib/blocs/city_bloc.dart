@@ -1,8 +1,6 @@
 import 'dart:async';
 
-
 import 'package:bloc/bloc.dart';
-
 
 import '../model/city_model.dart';
 import '../model/global_failure_model.dart';
@@ -10,11 +8,7 @@ import '../service/remote_service.dart';
 
 import 'package:bloc_use_case_generator/bloc_generator.dart';
 
-
 part 'city_bloc.g.dart';
-
-
-
 
 abstract class CityEvent {}
 
@@ -29,7 +23,15 @@ abstract class CityState {}
       name: 'DeleteCity',
       input: {'cityId': int},
       output: {'city': City},
-      extraStates: ['NoCityFound'],
+      extraStates: [
+        UseCaseState(
+          name: 'DeleteCityForbidden',
+        ),
+        UseCaseState(
+          name: 'DeleteCityWithId',
+          arguments: {'cityId': int},
+        )
+      ],
     ),
     BlocUseCase(
       name: 'GetCities',
