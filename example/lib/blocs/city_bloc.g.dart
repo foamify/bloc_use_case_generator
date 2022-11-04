@@ -10,7 +10,12 @@ class InitialCityState extends CityState {}
 
 class DeleteCityEvent extends CityEvent {
   final int cityId;
-  DeleteCityEvent({required this.cityId});
+  final bool? isCapitol;
+  final City? siblingCity;
+  DeleteCityEvent(
+      {required this.cityId,
+      required this.isCapitol,
+      required this.siblingCity});
 }
 
 class DeleteCityInProgressState extends CityState {}

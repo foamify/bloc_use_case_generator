@@ -46,6 +46,7 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
       if (outputDartMap != null) {
         for (var entry in outputDartMap.entries) {
           var key = entry.key?.toStringValue();
+
           var type = dartObjectToTypeString(entry.value);
 
           if (key == null || type == null) {
@@ -161,7 +162,18 @@ class BlocGenerator extends GeneratorForAnnotation<BlocAnnotation> {
   }
 
   String? dartObjectToTypeString(DartObject? dartObj) {
-    return dartObj?.toTypeValue().toString().replaceAll("*", "");
+    String? type = dartObj?.toTypeValue().toString().replaceAll("*", "");
+
+    if (type == null) return null;
+
+    if (type.contains("Nullable")) {
+      print('printing values');
+      print(type);
+      type = type.replaceFirst('Nullable<', '');
+      type = type.replaceFirst('>', '');
+      type = type + '?';
+    }
+    return type;
   }
 
   void _writeIO(StringBuffer buffer, Map<String, String> map, String constructorName) {

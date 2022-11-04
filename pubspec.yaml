@@ -1,10 +1,10 @@
 name: bloc_use_case_generator
 description: Generates event and states for flutter_bloc
-version: 1.1.1
+version: 1.2.0
 homepage: https://github.com/oguzhan2142/bloc_use_case_generator
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.15.0 <3.0.0"
 
 dependencies:
   analyzer: ^4.6.0

@@ -22,7 +22,11 @@ abstract class CityState {}
   blocUseCases: [
     BlocUseCase(
       name: 'DeleteCity',
-      input: {'cityId': int},
+      input: {
+        'cityId': int,
+        'isCapitol': Nullable<bool>,
+        'siblingCity': Nullable<City>,
+      },
       output: {'city': City},
       extraStates: [
         UseCaseState(
